@@ -30,10 +30,19 @@ const App = () => (
             <Route path="/scenarios/create" element={<CustomScenario />} />
             <Route path="/inventory" element={<Inventory />} />
             <Route path="/monitor" element={<Monitor />} />
-            <Route path="/forensics" element={<Placeholder title="Forensics / Artifacts" />} />
+            <Route
+              path="/forensics"
+              element={<Placeholder title="Forensics / Artifacts" />}
+            />
             <Route path="/reports" element={<Placeholder title="Reports" />} />
-            <Route path="/settings" element={<Placeholder title="Settings" />} />
-            <Route path="/run" element={<Placeholder title="Run Simulation" />} />
+            <Route
+              path="/settings"
+              element={<Placeholder title="Settings" />}
+            />
+            <Route
+              path="/run"
+              element={<Placeholder title="Run Simulation" />}
+            />
             <Route path="/logs" element={<Placeholder title="Logs" />} />
           </Route>
           <Route path="*" element={<NotFound />} />
