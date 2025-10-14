@@ -81,6 +81,7 @@ export default function AppLayout() {
                 <NavItem to="/run" icon={Play} label="Run Simulation" />
                 <NavItem to="/monitor" icon={Monitor} label="Live Monitor" />
                 <NavItem to="/forensics" icon={BookOpen} label="Forensics" />
+                <NavItem to="/inventory" icon={BarChart3} label="Inventory" />
                 <SidebarSeparator />
                 <NavItem to="/reports" icon={File} label="Reports" />
                 <NavItem to="/settings" icon={Settings} label="Settings" />
