@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import AppLayout from "@/components/layout/AppLayout";
 import Dashboard from "@/pages/Dashboard";
 import ScenarioLibrary from "@/pages/ScenarioLibrary";
+import Monitor from "@/pages/Monitor";
 import Placeholder from "@/pages/Placeholder";
 
 const queryClient = new QueryClient();
