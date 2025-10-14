@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Link } from "react-router-dom";
-import { Activity, CheckCircle2, Clock3, Cpu, Database, Play, ShieldCheck, Siren, FileText, Monitor, BarChart3 } from "lucide-react";
+import { Activity, CheckCircle2, Clock3, Cpu, Database, Play, ShieldCheck, Siren, File, Monitor, BarChart3 } from "lucide-react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 function StatusPill({ ok, label }: { ok: boolean; label: string }) {
