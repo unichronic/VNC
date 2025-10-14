@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { Activity, BarChart3, BookOpen, FileText, Monitor, Play, Settings, Shield, Table } from "lucide-react";
+import { Activity, BarChart3, BookOpen, File, Monitor, Play, Settings, Shield, Table } from "lucide-react";
 import { ReactNode } from "react";
 
 function Topbar() {
