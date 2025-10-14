@@ -12,6 +12,7 @@ import Dashboard from "@/pages/Dashboard";
 import ScenarioLibrary from "@/pages/ScenarioLibrary";
 import Monitor from "@/pages/Monitor";
 import CustomScenario from "@/pages/CustomScenario";
+import Inventory from "@/pages/Inventory";
 import Placeholder from "@/pages/Placeholder";
 
 const queryClient = new QueryClient();
