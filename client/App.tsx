@@ -28,6 +28,7 @@ const App = () => (
             <Route path="/" element={<Dashboard />} />
             <Route path="/scenarios" element={<ScenarioLibrary />} />
             <Route path="/scenarios/create" element={<CustomScenario />} />
+            <Route path="/inventory" element={<Inventory />} />
             <Route path="/monitor" element={<Monitor />} />
             <Route path="/forensics" element={<Placeholder title="Forensics / Artifacts" />} />
             <Route path="/reports" element={<Placeholder title="Reports" />} />
