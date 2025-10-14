@@ -203,7 +203,7 @@ export default function ScenarioLibrary() {
           </Table>
         </CardContent>
       </Card>
-      <RunModal scenario={runConfig ? { id: runConfig.scenarioId, name: runConfig.comboName || runConfig.scenarioId } : null} inventory={[]} open={runOpen} onOpenChange={setRunOpen} onStart={(cfg) => { console.log("Started run", cfg); startSimulation(); setRunOpen(false); }} />
+      <RunModal scenario={runConfig ? { id: runConfig.scenarioId, name: runConfig.comboName || runConfig.scenarioId } : null} inventory={entries} open={runOpen} onOpenChange={setRunOpen} onStart={(cfg) => { console.log("Started run", cfg); startSimulation(); setRunOpen(false); }} />
     </div>
   );
 }
