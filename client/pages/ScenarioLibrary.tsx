@@ -94,7 +94,7 @@ export default function ScenarioLibrary() {
                     <Badge variant={s.status === "available" ? "secondary" : s.status === "running" ? "outline" : "default"}>{s.status}</Badge>
                   </TableCell>
                   <TableCell className="text-right flex items-center justify-end gap-2">
-                    <DefenseSelectionModal scenario={{ id: s.id, name: s.name, description: s.name === "Clipboard Exfiltration" ? "Simulates clipboard data exfiltration over VNC clipboard sync." : undefined }} onRun={(cfg) => { startSimulation(); console.log("Run cfg", cfg); }} />
+                    <DefenseSelectionModal scenario={{ id: s.id, name: s.name, description: s.name === "Clipboard Exfiltration" ? "Simulates clipboard data exfiltration over VNC clipboard sync." : undefined }} onRun={(cfg) => { setRunConfig(cfg); setRunOpen(true); }} />
 
                     {/* Details dialog (non-blocking) */}
                     <Dialog open={openId === s.id} onOpenChange={(o) => setOpenId(o ? s.id : null)}>
