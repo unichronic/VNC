@@ -12,6 +12,7 @@ import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import DefenseSelectionModal from "@/components/DefenseSelectionModal";
 import RunModal from "@/components/RunModal";
+import useInventory from "@/hooks/useInventory";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Link } from "react-router-dom";
 
