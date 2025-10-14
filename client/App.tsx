@@ -25,7 +25,7 @@ const App = () => (
           <Route element={<AppLayout />}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/scenarios" element={<ScenarioLibrary />} />
-            <Route path="/monitor" element={<Placeholder title="Live Monitor" />} />
+            <Route path="/monitor" element={<Monitor />} />
             <Route path="/forensics" element={<Placeholder title="Forensics / Artifacts" />} />
             <Route path="/reports" element={<Placeholder title="Reports" />} />
             <Route path="/settings" element={<Placeholder title="Settings" />} />
