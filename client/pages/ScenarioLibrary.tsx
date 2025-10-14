@@ -56,6 +56,11 @@ export default function ScenarioLibrary() {
           <h1 className="text-2xl font-semibold tracking-tight">Scenario Library</h1>
           <p className="text-sm text-muted-foreground">Select a scenario to view details and run a simulation.</p>
         </div>
+        <div className="flex gap-2">
+          <Button asChild>
+            <Link to="/scenarios/create">Create Custom Scenario</Link>
+          </Button>
+        </div>
       </div>
 
       <Card>
