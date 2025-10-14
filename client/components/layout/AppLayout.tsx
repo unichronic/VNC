@@ -82,7 +82,7 @@ export default function AppLayout() {
                 <NavItem to="/monitor" icon={Monitor} label="Live Monitor" />
                 <NavItem to="/forensics" icon={BookOpen} label="Forensics" />
                 <SidebarSeparator />
-                <NavItem to="/reports" icon={FileText} label="Reports" />
+                <NavItem to="/reports" icon={File} label="Reports" />
                 <NavItem to="/settings" icon={Settings} label="Settings" />
               </SidebarMenu>
             </SidebarGroupContent>
