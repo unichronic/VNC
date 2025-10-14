@@ -37,6 +37,9 @@ export default function ScenarioLibrary() {
     [],
   );
 
+  const [runOpen, setRunOpen] = useState(false);
+  const [runConfig, setRunConfig] = useState<any | null>(null);
+
   function startSimulation() {
     setProgress(1);
     const id = setInterval(() => {
