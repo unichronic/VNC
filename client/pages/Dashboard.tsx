@@ -152,7 +152,7 @@ export default function Dashboard() {
             <CardTitle className="flex items-center justify-between text-base"><span>Quick links</span></CardTitle>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-2">
-            <Button asChild variant="outline" size="sm"><Link to="/reports"><FileText className="mr-2 h-4 w-4" /> Reports</Link></Button>
+            <Button asChild variant="outline" size="sm"><Link to="/reports"><File className="mr-2 h-4 w-4" /> Reports</Link></Button>
             <Button asChild variant="outline" size="sm"><Link to="/monitor"><Monitor className="mr-2 h-4 w-4" /> Live Monitor</Link></Button>
             <Button asChild variant="outline" size="sm"><Link to="/forensics"><Database className="mr-2 h-4 w-4" /> Artifacts</Link></Button>
             <Button asChild variant="outline" size="sm"><Link to="/logs"><BarChart3 className="mr-2 h-4 w-4" /> Logs</Link></Button>
