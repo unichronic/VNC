@@ -91,17 +91,18 @@ export default function ScenarioLibrary() {
                   <TableCell>
                     <Badge variant={s.status === "available" ? "secondary" : s.status === "running" ? "outline" : "default"}>{s.status}</Badge>
                   </TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className="text-right flex items-center justify-end gap-2">
+                    <DefenseSelectionModal scenario={{ id: s.id, name: s.name, description: s.name === "Clipboard Exfiltration" ? "Simulates clipboard data exfiltration over VNC clipboard sync." : undefined }} onRun={(cfg) => { startSimulation(); console.log("Run cfg", cfg); }} />
+
+                    {/* Details dialog (non-blocking) */}
                     <Dialog open={openId === s.id} onOpenChange={(o) => setOpenId(o ? s.id : null)}>
                       <DialogTrigger asChild>
-                        <Button size="sm" variant="outline">Details</Button>
+                        <Button size="sm" variant="ghost">Details</Button>
                       </DialogTrigger>
                       <DialogContent className="max-w-3xl">
                         <DialogHeader>
                           <DialogTitle>{s.name}</DialogTitle>
-                          <DialogDescription>
-                            Involved tools: TigerVNC, RealVNC, Wireshark, Suricata, Zeek
-                          </DialogDescription>
+                          <div className="text-sm text-muted-foreground">Involved tools: TigerVNC, RealVNC, Wireshark, Suricata, Zeek</div>
                         </DialogHeader>
                         <div className="grid gap-6 md:grid-cols-3">
                           <div className="md:col-span-2 space-y-4">
