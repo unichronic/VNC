@@ -6,8 +6,11 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import AppLayout from "@/components/layout/AppLayout";
+import Dashboard from "@/pages/Dashboard";
+import ScenarioLibrary from "@/pages/ScenarioLibrary";
+import Placeholder from "@/pages/Placeholder";
 
 const queryClient = new QueryClient();
 
@@ -18,8 +21,16 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route element={<AppLayout />}>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/scenarios" element={<ScenarioLibrary />} />
+            <Route path="/monitor" element={<Placeholder title="Live Monitor" />} />
+            <Route path="/forensics" element={<Placeholder title="Forensics / Artifacts" />} />
+            <Route path="/reports" element={<Placeholder title="Reports" />} />
+            <Route path="/settings" element={<Placeholder title="Settings" />} />
+            <Route path="/run" element={<Placeholder title="Run Simulation" />} />
+            <Route path="/logs" element={<Placeholder title="Logs" />} />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
