@@ -11,6 +11,7 @@ import AppLayout from "@/components/layout/AppLayout";
 import Dashboard from "@/pages/Dashboard";
 import ScenarioLibrary from "@/pages/ScenarioLibrary";
 import Monitor from "@/pages/Monitor";
+import CustomScenario from "@/pages/CustomScenario";
 import Placeholder from "@/pages/Placeholder";
 
 const queryClient = new QueryClient();
