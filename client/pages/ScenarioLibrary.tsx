@@ -40,6 +40,7 @@ export default function ScenarioLibrary() {
 
   const [runOpen, setRunOpen] = useState(false);
   const [runConfig, setRunConfig] = useState<any | null>(null);
+  const { entries } = useInventory();
 
   function startSimulation() {
     setProgress(1);
