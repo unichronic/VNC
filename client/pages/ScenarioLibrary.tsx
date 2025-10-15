@@ -292,18 +292,25 @@ export default function ScenarioLibrary() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
-                <Badge
-                  variant={
-                    s.risk === "High"
-                      ? "destructive"
-                      : s.risk === "Med"
-                        ? "secondary"
-                        : "outline"
-                  }
-                  className="text-xs"
-                >
-                  {s.risk} Risk
-                </Badge>
+                <div className="flex items-center gap-2">
+                  <Badge
+                    variant={
+                      s.risk === "High"
+                        ? "destructive"
+                        : s.risk === "Med"
+                          ? "secondary"
+                          : "outline"
+                    }
+                    className="text-xs"
+                  >
+                    {s.risk} Risk
+                  </Badge>
+                  {entries.length > 0 && (
+                    <Badge variant="outline" className="text-xs text-green-600 border-green-600">
+                      {entries.length} target{entries.length !== 1 ? 's' : ''} available
+                    </Badge>
+                  )}
+                </div>
                 <Badge
                   variant={
                     s.status === "available"
@@ -329,6 +336,38 @@ export default function ScenarioLibrary() {
                   ? "Demonstrates DNS tunneling techniques for data exfiltration."
                   : "Network/host scenario emulation with VNC and sensors."}
               </p>
+
+              {/* Quick Inventory Target Selection */}
+              {entries.length > 0 && (
+                <div className="space-y-2">
+                  <div className="text-xs font-medium text-muted-foreground">Quick Target</div>
+                  <Select onValueChange={(value) => {
+                    const target = entries.find(e => e.id === value);
+                    if (target) {
+                      toast.success(`Selected ${target.alias} for ${s.name}`);
+                    }
+                  }}>
+                    <SelectTrigger className="h-8 text-xs">
+                      <SelectValue placeholder="Select inventory target..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {entries.map((entry) => (
+                        <SelectItem key={entry.id} value={entry.id}>
+                          <div className="flex items-center gap-2">
+                            <div className={`w-1.5 h-1.5 rounded-full ${
+                              entry.env === 'prod' ? 'bg-red-500' : 
+                              entry.env === 'staging' ? 'bg-yellow-500' : 'bg-green-500'
+                            }`} />
+                            <span className="font-medium">{entry.alias}</span>
+                            <span className="text-muted-foreground">({entry.host}:{entry.port})</span>
+                            {entry.tls && <Badge variant="secondary" className="text-xs ml-1">TLS</Badge>}
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
 
               <div className="flex items-center gap-2 pt-2">
                 <DefenseSelectionModal
@@ -381,44 +420,111 @@ export default function ScenarioLibrary() {
                               }
                             />
                           </div>
-                          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                          {/* Inventory Target Selection */}
+                          <div className="space-y-4">
                             <div>
-                              <Label>Server IP</Label>
-                              <Input
-                                className="mt-1"
-                                placeholder="10.0.0.21"
-                              />
+                              <Label className="text-sm font-medium">Select Target from Inventory</Label>
+                              <div className="mt-2">
+                                {entries.length > 0 ? (
+                                  <Select onValueChange={(value) => {
+                                    const selectedTarget = entries.find(e => e.id === value);
+                                    if (selectedTarget) {
+                                      toast.success(`Selected ${selectedTarget.alias} as target`);
+                                    }
+                                  }}>
+                                    <SelectTrigger className="w-full">
+                                      <SelectValue placeholder="Choose a VNC target from inventory..." />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      {entries.map((entry) => (
+                                        <SelectItem key={entry.id} value={entry.id}>
+                                          <div className="flex items-center gap-3 w-full">
+                                            <div className={`w-2 h-2 rounded-full ${
+                                              entry.env === 'prod' ? 'bg-red-500' : 
+                                              entry.env === 'staging' ? 'bg-yellow-500' : 'bg-green-500'
+                                            }`} />
+                                            <div className="flex-1">
+                                              <div className="font-medium">{entry.alias}</div>
+                                              <div className="text-xs text-muted-foreground">
+                                                {entry.host}:{entry.port} • {entry.type} • {entry.env}
+                                              </div>
+                                            </div>
+                                            <div className="flex gap-1">
+                                              {entry.tls && (
+                                                <Badge variant="secondary" className="text-xs">TLS</Badge>
+                                              )}
+                                              {entry.features.clipboard && (
+                                                <Badge variant="outline" className="text-xs">
+                                                  <Clipboard className="h-3 w-3 mr-1" />
+                                                  Clipboard
+                                                </Badge>
+                                              )}
+                                            </div>
+                                          </div>
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                ) : (
+                                  <div className="text-center py-6 border-2 border-dashed rounded-lg bg-muted/20">
+                                    <div className="text-sm text-muted-foreground mb-2">
+                                      No VNC targets in inventory
+                                    </div>
+                                    <div className="text-xs text-muted-foreground mb-3">
+                                      Add VNC targets to your inventory to use them in scenarios
+                                    </div>
+                                    <Button size="sm" asChild>
+                                      <Link to="/inventory">Go to Inventory</Link>
+                                    </Button>
+                                  </div>
+                                )}
+                              </div>
                             </div>
-                            <div>
-                              <Label>Client IP</Label>
-                              <Input
-                                className="mt-1"
-                                placeholder="10.0.0.7"
-                              />
-                            </div>
-                            <div>
-                              <Label>Payload size (KB)</Label>
-                              <Input
-                                className="mt-1"
-                                type="number"
-                                placeholder="256"
-                              />
-                            </div>
-                            <div>
-                              <Label>TLS</Label>
-                              <Select defaultValue="enabled">
-                                <SelectTrigger className="mt-1">
-                                  <SelectValue placeholder="Select" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="enabled">
-                                    Enabled
-                                  </SelectItem>
-                                  <SelectItem value="disabled">
-                                    Disabled
-                                  </SelectItem>
-                                </SelectContent>
-                              </Select>
+
+                            {/* Configuration Options */}
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                              <div>
+                                <Label>Payload size (KB)</Label>
+                                <Input
+                                  className="mt-1"
+                                  type="number"
+                                  placeholder="256"
+                                />
+                              </div>
+                              <div>
+                                <Label>Duration (seconds)</Label>
+                                <Input
+                                  className="mt-1"
+                                  type="number"
+                                  placeholder="300"
+                                />
+                              </div>
+                              <div>
+                                <Label>Attack Intensity</Label>
+                                <Select defaultValue="medium">
+                                  <SelectTrigger className="mt-1">
+                                    <SelectValue placeholder="Select intensity" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="low">Low</SelectItem>
+                                    <SelectItem value="medium">Medium</SelectItem>
+                                    <SelectItem value="high">High</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div>
+                                <Label>Detection Mode</Label>
+                                <Select defaultValue="enabled">
+                                  <SelectTrigger className="mt-1">
+                                    <SelectValue placeholder="Select mode" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="enabled">Detection Enabled</SelectItem>
+                                    <SelectItem value="disabled">Detection Disabled</SelectItem>
+                                    <SelectItem value="stealth">Stealth Mode</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
                             </div>
                           </div>
                           <div>
