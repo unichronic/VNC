@@ -140,9 +140,9 @@ export default function DefenseSelectionModal({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm">
-          Details
-        </Button>
+        <div className="hidden">
+          {/* Hidden trigger - dialog opened programmatically */}
+        </div>
       </DialogTrigger>
       <DialogContent className="max-w-4xl">
         <DialogHeader>
