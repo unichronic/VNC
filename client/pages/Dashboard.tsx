@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import {
   Table,
   TableBody,
@@ -14,16 +13,15 @@ import {
 import { Link } from "react-router-dom";
 import {
   Activity,
-  CheckCircle2,
-  Clock3,
   Cpu,
   Database,
   Play,
-  ShieldCheck,
-  Siren,
   File,
   Monitor,
   BarChart3,
+  Server,
+  Trash2,
+  TestTube,
 } from "lucide-react";
 import {
   Area,
@@ -33,6 +31,9 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import useInventory from "@/hooks/useInventory";
+import OnboardingWizard from "@/components/OnboardingWizard";
+import { toast } from "sonner";
 
 function StatusPill({ ok, label }: { ok: boolean; label: string }) {
   return (
@@ -53,6 +54,8 @@ function StatusPill({ ok, label }: { ok: boolean; label: string }) {
 }
 
 export default function Dashboard() {
+  const { entries, testConnection, remove } = useInventory();
+  
   const traffic = useMemo(
     () =>
       Array.from({ length: 24 }).map((_, i) => ({
@@ -66,17 +69,19 @@ export default function Dashboard() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Dashboard & Inventory</h1>
           <p className="text-sm text-muted-foreground">
-            Configure scenarios, run simulations, and review detections and
-            artifacts.
+            Monitor system status, manage VNC targets, and review detections and artifacts.
           </p>
         </div>
-        <Button asChild size="sm" className="gap-1">
-          <Link to="/scenarios">
-            <Play className="h-4 w-4" /> Run New Test
-          </Link>
-        </Button>
+        <div className="flex gap-2">
+          <OnboardingWizard />
+          <Button asChild size="sm" className="gap-1">
+            <Link to="/scenarios">
+              <Play className="h-4 w-4" /> Run New Test
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-12">
@@ -140,130 +145,8 @@ export default function Dashboard() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between text-base">
-              <span>Detection rate</span>
-              <ShieldCheck className="h-4 w-4 text-emerald-500" />
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-3">
-              <Progress value={92} className="h-2" />
-              <span className="text-sm font-medium">92%</span>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between text-base">
-              <span>Blocked attempts</span>
-              <Siren className="h-4 w-4 text-destructive" />
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-semibold tabular-nums">134</div>
-            <div className="text-xs text-muted-foreground">Last 7 days</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between text-base">
-              <span>Mean time to detect</span>
-              <Clock3 className="h-4 w-4 text-primary" />
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-semibold tabular-nums">3.8s</div>
-            <div className="text-xs text-muted-foreground">Median 2.9s</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between text-base">
-              <span>Total scenarios executed</span>
-              <Database className="h-4 w-4 text-primary" />
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-semibold tabular-nums">482</div>
-            <div className="text-xs text-muted-foreground">Since inception</div>
-          </CardContent>
-        </Card>
-      </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between text-base">
-              <span>Recent alerts</span>
-              <CheckCircle2 className="h-4 w-4 text-muted-foreground" />
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Time</TableHead>
-                  <TableHead>Severity</TableHead>
-                  <TableHead>Rule</TableHead>
-                  <TableHead className="hidden md:table-cell">
-                    Src → Dst
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {[
-                  {
-                    t: "14:22:31",
-                    sev: "High",
-                    rule: "SURICATA TLS cert mismatch",
-                    flow: "10.0.0.7 → 10.0.0.21",
-                  },
-                  {
-                    t: "14:20:10",
-                    sev: "Med",
-                    rule: "ZEEK clipboard exfil",
-                    flow: "10.0.0.7 → 10.0.0.30",
-                  },
-                  {
-                    t: "14:18:03",
-                    sev: "Low",
-                    rule: "SURICATA DNS spike",
-                    flow: "10.0.0.8 → 1.1.1.1",
-                  },
-                ].map((a, i) => (
-                  <TableRow key={i}>
-                    <TableCell className="tabular-nums">{a.t}</TableCell>
-                    <TableCell>
-                      <Badge
-                        variant={
-                          a.sev === "High"
-                            ? "destructive"
-                            : a.sev === "Med"
-                              ? "secondary"
-                              : "outline"
-                        }
-                      >
-                        {a.sev}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="truncate max-w-[180px] md:max-w-none">
-                      {a.rule}
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      {a.flow}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            <div className="mt-3 text-xs text-muted-foreground">
-              Live Monitor provides full details.
-            </div>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-1">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center justify-between text-base">
@@ -294,6 +177,76 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Inventory Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Server className="h-4 w-4 text-primary" /> VNC Targets
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Alias</TableHead>
+                <TableHead>Host</TableHead>
+                <TableHead>Type</TableHead>
+                <TableHead>Env</TableHead>
+                <TableHead>Features</TableHead>
+                <TableHead>Last validated</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {entries.map((e) => (
+                <TableRow key={e.id}>
+                  <TableCell className="font-medium">{e.alias}</TableCell>
+                  <TableCell>
+                    {e.host}:{e.port}
+                  </TableCell>
+                  <TableCell>{e.type}</TableCell>
+                  <TableCell>{e.env}</TableCell>
+                  <TableCell>
+                    {e.features.clipboard ? <Badge variant="outline" className="mr-1">clipboard</Badge> : null}
+                    {e.features.fileTransfer ? <Badge variant="outline">file</Badge> : null}
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">
+                    {e.lastValidated
+                      ? new Date(e.lastValidated).toLocaleString()
+                      : "-"}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex gap-2 justify-end">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={async () => {
+                          const r = await testConnection(e.id);
+                          toast.success(r.log);
+                        }}
+                      >
+                        <TestTube className="h-3 w-3 mr-1" />
+                        Test
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => {
+                          remove(e.id);
+                          toast.success("Deleted");
+                        }}
+                      >
+                        <Trash2 className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
     </div>
   );
 }

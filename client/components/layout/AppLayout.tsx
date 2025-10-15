@@ -18,6 +18,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { cn } from "@/lib/utils";
 import {
   Activity,
@@ -46,6 +47,7 @@ function Topbar() {
           {location.pathname}
         </span>
         <div className="ml-auto flex items-center gap-2">
+          <ThemeToggle />
           <Button asChild size="sm" className="gap-1">
             <Link to="/scenarios">
               <Play className="h-4 w-4" /> Run New Test
@@ -111,16 +113,14 @@ export default function AppLayout() {
             <SidebarGroupLabel>Navigation</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                <NavItem to="/" icon={Activity} label="Dashboard" />
+                <NavItem to="/" icon={Activity} label="Dashboard & Inventory" />
                 <NavItem
                   to="/scenarios"
                   icon={Table}
                   label="Scenario Library"
                 />
                 <NavItem to="/run" icon={Play} label="Run Simulation" />
-                <NavItem to="/monitor" icon={Monitor} label="Live Monitor" />
                 <NavItem to="/forensics" icon={BookOpen} label="Forensics" />
-                <NavItem to="/inventory" icon={BarChart3} label="Inventory" />
                 <SidebarSeparator />
                 <NavItem to="/reports" icon={File} label="Reports" />
                 <NavItem to="/settings" icon={Settings} label="Settings" />
